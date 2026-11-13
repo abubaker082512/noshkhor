@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoshKhor (نوش خور) — Pakistan's 1st Dine-In Price Parity Delivery Platform</title>
+  <meta name="description" content="NoshKhor brings pure food delivery with 0% hidden markups, transparent PKR 20/km delivery fees, bi-weekly vendor settlements, and instant Raast rider payouts.">
+  <link rel="icon" type="image/png" href="assets/images/noshkhor_logo.png">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            saffron: {
+              DEFAULT: '#FF5722',
+              dark: '#E64A19',
+              light: '#FF8A65',
+            },
+            turmeric: {
+              DEFAULT: '#FFB703',
+              dark: '#FB8500',
+              light: '#FFE082',
+            },
+            cream: '#FFFDF5',
+            charcoal: '#1E1E24',
+            emerald: '#10B981',
+            markhorGreen: '#14532D',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .gradient-sunset {
+      background: linear-gradient(135deg, #FF5722 0%, #FFB703 100%);
+    }
+    .gradient-hero-card {
+      background: linear-gradient(145deg, #2A1F18 0%, #151518 100%);
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #FF5722 0%, #FFB703 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-[#FAF9F5] text-charcoal font-sans antialiased selection:bg-saffron selection:text-white">
+
+  <!-- TOP NOTICE BAR -->
+  <div class="bg-charcoal text-white text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-2">
+    <span class="inline-block w-2 h-2 rounded-full bg-emerald animate-ping"></span>
+    <span>🇵🇰 <strong>Dine-In Price Parity Guaranteed:</strong> We never inflate restaurant menu prices. Base PKR 40 + PKR 20/km fair distance delivery.</span>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-md transition-transform group-hover:scale-105 duration-200">
+          <img src="assets/images/noshkhor_logo.png" alt="NoshKhor Markhor Emblem" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-2xl font-black tracking-tight text-charcoal">NoshKhor</span>
+            <span class="text-lg font-bold text-saffron font-serif">نوش خور</span>
+          </div>
+          <p class="text-[10px] uppercase font-bold tracking-wider text-gray-400">Zero-Markup Delivery Platform</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-gray-700">
+        <a href="#calculator" class="hover:text-saffron transition-colors">Fee Calculator</a>
+        <a href="#vendor-form" class="hover:text-saffron transition-colors">Partner Restaurant</a>
+        <a href="#rider-form" class="hover:text-saffron transition-colors">Join Rider Fleet</a>
+        <a href="#apps" class="hover:text-saffron transition-colors">Download Apps</a>
+      </nav>
+
+      <!-- Action Button -->
+      <div class="flex items-center gap-3">
+        <a href="#vendor-form" class="px-5 py-2.5 rounded-xl font-bold text-sm text-white gradient-sunset hover:opacity-95 shadow-md shadow-saffron/20 transition-all hover:shadow-lg">
+          Onboard Today
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-12 pb-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Headline -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-saffron text-xs font-bold">
+            <span>🛡️ Anti-Inflation Manifesto</span>
+            <span class="text-gray-400">•</span>
+            <span>0% Platform Commission Tricks</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-charcoal leading-tight tracking-tight">
+            Stop Paying <span class="text-gradient">40% Extra</span> For Your Own Food.
+          </h1>
+
+          <p class="text-lg text-gray-600 font-medium leading-relaxed max-w-xl">
+            NoshKhor (نوش خور) guarantees <strong>Exact Dine-In Prices</strong> on every dish. No inflated restaurant rates, no deceptive platform fees. Just clear distance-based delivery at <strong>PKR 20/km</strong>.
+          </p>
+
+          <!-- Core Value Metrics -->
+          <div class="grid grid-cols-3 gap-4 pt-2 max-w-lg">
+            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div class="text-2xl font-black text-saffron">0%</div>
+              <div class="text-xs font-bold text-gray-500 mt-1">Menu Price Markup</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div class="text-2xl font-black text-turmeric-dark">PKR 20</div>
+              <div class="text-xs font-bold text-gray-500 mt-1">Per Kilometer Fee</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div class="text-2xl font-black text-emerald">Raast ⚡</div>
+              <div class="text-xs font-bold text-gray-500 mt-1">Instant Payouts</div>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap gap-4 pt-4">
+            <a href="#apps" class="px-7 py-3.5 rounded-2xl font-black text-white gradient-sunset shadow-lg shadow-saffron/30 hover:scale-105 transition-transform flex items-center gap-2">
+              <span>Download Customer App</span>
+              <span>↓</span>
+            </a>
+            <a href="#vendor-form" class="px-7 py-3.5 rounded-2xl font-bold text-charcoal bg-white border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors">
+              Restaurant Registration
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Live Price Comparison Card -->
+        <div class="lg:col-span-5">
+          <div class="gradient-hero-card text-white p-7 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-16 -top-16 w-48 h-48 bg-saffron/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between pb-6 border-b border-white/10">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl gradient-sunset flex items-center justify-center font-black text-white text-lg">N</div>
+                <div>
+                  <h3 class="font-black text-base text-white">Price Transparency Index</h3>
+                  <p class="text-xs text-gray-400">Order: Special Chicken Biryani (2 Plates)</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald/20 text-emerald border border-emerald/30">Verified</span>
+            </div>
+
+            <!-- Comparison Breakdown -->
+            <div class="py-6 space-y-4">
+              <!-- Competitor -->
+              <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+                  <span>Traditional Food Aggregator</span>
+                  <span class="text-red-400 font-bold">+35% Markup</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-gray-300">Menu Price: PKR 650 x 2 = PKR 1,300</div>
+                    <div class="text-xs text-gray-400">+ Delivery Fee: PKR 180 + Platform Fee: PKR 35</div>
+                  </div>
+                  <div class="text-xl font-black text-red-400 line-through">PKR 1,515</div>
+                </div>
+              </div>
+
+              <!-- NoshKhor -->
+              <div class="bg-saffron/15 p-4 rounded-2xl border border-saffron/40 relative">
+                <div class="flex items-center justify-between text-xs text-saffron-light font-bold mb-1">
+                  <span>NoshKhor (Exact Dine-In Rate)</span>
+                  <span class="text-emerald font-black">SAVE PKR 435</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-white font-medium">Original Dine-In: PKR 480 x 2 = PKR 960</div>
+                    <div class="text-xs text-gray-300">+ PKR 40 base + PKR 20/km (4 km): PKR 120</div>
+                  </div>
+                  <div class="text-2xl font-black text-white">PKR 1,080</div>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-center text-[11px] text-gray-400">Dine-in menu parity verified by NoshKhor Super Admin field audits.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE TRANSPARENT DELIVERY FEE CALCULATOR -->
+  <section id="calculator" class="py-16 bg-white border-y border-gray-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-center space-y-3 mb-10">
+        <span class="text-saffron text-xs font-black uppercase tracking-wider">Formula: Base PKR 40 + (Distance × PKR 20)</span>
+        <h2 class="text-3xl font-black text-charcoal">Interactive Delivery Fee Estimator</h2>
+        <p class="text-gray-600 text-sm max-w-lg mx-auto">Move the slider to see how transparent distance pricing guarantees you never overpay for delivery across Lahore, Karachi & Islamabad.</p>
+      </div>
+
+      <div class="bg-[#FAF9F5] p-8 rounded-3xl border border-gray-200/80 shadow-sm space-y-8">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <label class="text-sm font-bold text-gray-700">Distance from Kitchen to Your Doorstep:</label>
+            <span id="distance-val" class="text-2xl font-black text-saffron">3.5 KM</span>
+          </div>
+          <input id="distance-slider" type="range" min="0.5" max="7.0" step="0.5" value="3.5" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-saffron">
+          <div class="flex justify-between text-[11px] text-gray-400 mt-2 font-bold">
+            <span>0.5 KM (Neighborhood)</span>
+            <span>3.5 KM (Average Trip)</span>
+            <span>7.0 KM (Max Strict Radius)</span>
+          </div>
+        </div>
+
+        <!-- Calculated Fee Display -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+          <div class="bg-white p-4 rounded-2xl border border-gray-100 text-center">
+            <span class="text-xs text-gray-500 font-bold block">Base Pick-up Fee</span>
+            <span class="text-xl font-black text-charcoal">PKR 40</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-gray-100 text-center">
+            <span class="text-xs text-gray-500 font-bold block">Per KM Distance (<span id="calc-km">3.5</span> × PKR 20)</span>
+            <span id="distance-cost" class="text-xl font-black text-turmeric-dark">PKR 70</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border-2 border-saffron text-center shadow-md">
+            <span class="text-xs text-saffron font-black block uppercase tracking-wider">Total Delivery Fee</span>
+            <span id="total-delivery-fee" class="text-2xl font-black text-saffron">PKR 110</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONBOARDING FORMS SECTION (VENDOR & RIDER) -->
+  <section class="py-20 bg-[#FAF9F5]" id="onboarding">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center space-y-3 mb-12">
+        <span class="text-saffron text-xs font-black uppercase tracking-wider">Partner Ecosystem</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-charcoal">Join The NoshKhor Food Revolution</h2>
+        <p class="text-gray-600 text-sm max-w-xl mx-auto">Whether you run a high-volume restaurant, a passionate mother-run home kitchen, or want to earn guaranteed per-km rider payouts — we welcome you.</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex justify-center mb-10">
+        <div class="bg-white p-1.5 rounded-2xl border border-gray-200 shadow-sm flex gap-2">
+          <button id="tab-btn-vendor" onclick="switchTab('vendor')" class="px-6 py-2.5 rounded-xl font-bold text-sm text-white gradient-sunset shadow-sm transition-all">
+            🍽️ Restaurant / Kitchen Onboarding
+          </button>
+          <button id="tab-btn-rider" onclick="switchTab('rider')" class="px-6 py-2.5 rounded-xl font-bold text-sm text-gray-600 hover:text-charcoal transition-all">
+            🏍️ Rider Partner Fast-Track KYC
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. VENDOR ONBOARDING FORM -->
+      <div id="vendor-form-container" class="max-w-3xl mx-auto bg-white p-8 sm:p-10 rounded-3xl border border-gray-200 shadow-md">
+        <div class="flex items-center gap-3 pb-6 border-b border-gray-100 mb-8">
+          <div class="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center text-saffron text-2xl font-black">👨‍🍳</div>
+          <div>
+            <h3 class="text-xl font-black text-charcoal">Restaurant & HomeChef Registration</h3>
+            <p class="text-xs text-gray-500">Bi-weekly settlements every Tuesday & Friday directly via Raast / Bank IBAN.</p>
+          </div>
+        </div>
+
+        <form id="vendor-form" onsubmit="handleVendorSubmit(event)" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Business / Restaurant Name *</label>
+              <input type="text" required placeholder="e.g. Bundu Khan / Ami Ki Handi" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Ecosystem Category *</label>
+              <select required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm bg-white">
+                <option value="restaurant">🍽️ Commercial Restaurant / Cafe</option>
+                <option value="homeChef">👩‍🍳 Mother's Kitchen / HomeChef (10% Tier)</option>
+                <option value="mart">🛒 Grocery Mart & Fresh Produce</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Owner / Manager Name *</label>
+              <input type="text" required placeholder="Full Name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">WhatsApp / Phone Number *</label>
+              <input type="tel" required placeholder="0300-1234567" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">City *</label>
+              <select required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm bg-white">
+                <option>Lahore</option>
+                <option>Karachi</option>
+                <option>Islamabad</option>
+                <option>Rawalpindi</option>
+                <option>Faisalabad</option>
+                <option>Multan</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Kitchen / Store Address *</label>
+              <input type="text" required placeholder="Shop #, Street, Sector, Area" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Raast ID or Bank IBAN (Settlements) *</label>
+              <input type="text" required placeholder="03001234567@raast or PK36..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm font-mono">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">NTN Number (Optional)</label>
+              <input type="text" placeholder="7-digit NTN" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Signature Dishes / Menu Specialties</label>
+            <textarea rows="3" placeholder="Tell us your most popular dishes and approximate preparation times..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm"></textarea>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-orange-50 border border-orange-200 text-xs text-orange-900 leading-relaxed font-medium">
+            🤝 <strong>NoshKhor Fair Partnership Commitment:</strong> No hidden commission inflation. Bi-weekly Tuesday and Friday automated settlements via Raast / 1LINK. Same-day menu digitization.
+          </div>
+
+          <button type="submit" class="w-full py-4 rounded-2xl font-black text-white gradient-sunset text-base shadow-lg shadow-saffron/25 hover:opacity-95 transition-all">
+            Submit Restaurant Partnership Application
+          </button>
+        </form>
+      </div>
+
+      <!-- 2. RIDER ONBOARDING FORM -->
+      <div id="rider-form-container" class="max-w-3xl mx-auto bg-white p-8 sm:p-10 rounded-3xl border border-gray-200 shadow-md hidden">
+        <div class="flex items-center gap-3 pb-6 border-b border-gray-100 mb-8">
+          <div class="w-12 h-12 rounded-2xl bg-emerald/10 flex items-center justify-center text-emerald text-2xl font-black">🏍️</div>
+          <div>
+            <h3 class="text-xl font-black text-charcoal">Markhor Rider Fleet Application</h3>
+            <p class="text-xs text-gray-500">Guaranteed PKR 20/km payout on every order with Instant Daily Raast Withdrawals.</p>
+          </div>
+        </div>
+
+        <form id="rider-form" onsubmit="handleRiderSubmit(event)" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Full Legal Name (as on CNIC) *</label>
+              <input type="text" required placeholder="e.g. Hamza Ali" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">CNIC Number *</label>
+              <input type="text" required placeholder="35202-XXXXXXX-X" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Active Mobile / WhatsApp *</label>
+              <input type="tel" required placeholder="0321-XXXXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">City & Preferred Zone *</label>
+              <select required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm bg-white">
+                <option>Lahore — Gulberg & MM Alam</option>
+                <option>Lahore — DHA Phases 1–8</option>
+                <option>Lahore — Johar Town & Model Town</option>
+                <option>Karachi — Clifton & DHA</option>
+                <option>Karachi — Gulshan & PECHS</option>
+                <option>Islamabad — F-6, F-7, Blue Area</option>
+                <option>Rawalpindi — Saddar & Bahria</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Motorcycle Model *</label>
+              <input type="text" required placeholder="e.g. Honda CD 70 / 125" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Bike Registration # *</label>
+              <input type="text" required placeholder="e.g. LEH-7842" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm font-mono">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Driving License # *</label>
+              <input type="text" required placeholder="License or Learner Permit" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Raast ID / Easypaisa (For Daily Cashout) *</label>
+              <input type="text" required placeholder="0321XXXXXXX@raast" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm font-mono">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Emergency Contact (Relation & Phone) *</label>
+              <input type="text" required placeholder="Father / Brother — 0300-XXXXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm">
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-emerald/10 border border-emerald/20 text-xs text-green-950 leading-relaxed font-medium">
+            🏍️ <strong>Rider Partner Benefits:</strong> Single-swipe shift radar. No batching penalties. Guaranteed PKR 40 base + PKR 20/km pay. 100% of customer tips are yours. Daily instant cashouts.
+          </div>
+
+          <button type="submit" class="w-full py-4 rounded-2xl font-black text-white bg-markhorGreen hover:bg-green-900 text-base shadow-lg shadow-green-900/20 transition-all">
+            Submit Rider Fast-Track Application
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- APP DOWNLOAD CENTER -->
+  <section id="apps" class="py-20 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-3 mb-14">
+        <span class="text-saffron text-xs font-black uppercase tracking-wider">Production Mobile Ecosystem</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-charcoal">4 Distinct Apps. One Unified Platform.</h2>
+        <p class="text-gray-600 text-sm max-w-xl mx-auto">Every role has its own dedicated, purpose-built application compiled with maximum battery and data efficiency (< 60 MB each).</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- App 1: Customer -->
+        <div class="bg-[#FAF9F5] p-6 rounded-3xl border border-gray-200 flex flex-col justify-between hover:shadow-lg transition-all">
+          <div>
+            <div class="w-14 h-14 rounded-2xl gradient-sunset flex items-center justify-center text-white text-2xl font-black mb-4 shadow-md">🍽️</div>
+            <h3 class="text-lg font-black text-charcoal">Customer App</h3>
+            <p class="text-xs text-saffron font-bold mt-0.5">NoshKhor (نوش خور)</p>
+            <p class="text-xs text-gray-600 mt-3 leading-relaxed">Frictionless discovery, 0% menu markup guarantee, live GPS rider map tracking, and masked in-app calling.</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-200/80">
+            <a href="https://github.com/abubaker082512/noshkhor/releases" class="block text-center py-2.5 rounded-xl font-bold text-xs bg-charcoal text-white hover:bg-black transition-colors">
+              Download APK (58.3 MB)
+            </a>
+          </div>
+        </div>
+
+        <!-- App 2: Vendor Partner -->
+        <div class="bg-[#FAF9F5] p-6 rounded-3xl border border-gray-200 flex flex-col justify-between hover:shadow-lg transition-all">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-orange-600 flex items-center justify-center text-white text-2xl font-black mb-4 shadow-md">👨‍🍳</div>
+            <h3 class="text-lg font-black text-charcoal">Vendor Kitchen POS</h3>
+            <p class="text-xs text-orange-600 font-bold mt-0.5">Merchant Portal</p>
+            <p class="text-xs text-gray-600 mt-3 leading-relaxed">High-alert kitchen dashboard, 60s accept timer, busy mode rush pause, and bi-weekly Tuesday/Friday Raast ledgers.</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-200/80">
+            <a href="https://github.com/abubaker082512/noshkhor/releases" class="block text-center py-2.5 rounded-xl font-bold text-xs bg-charcoal text-white hover:bg-black transition-colors">
+              Download APK (58.2 MB)
+            </a>
+          </div>
+        </div>
+
+        <!-- App 3: Rider Partner -->
+        <div class="bg-[#FAF9F5] p-6 rounded-3xl border border-gray-200 flex flex-col justify-between hover:shadow-lg transition-all">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-markhorGreen flex items-center justify-center text-white text-2xl font-black mb-4 shadow-md">🏍️</div>
+            <h3 class="text-lg font-black text-charcoal">Rider Partner App</h3>
+            <p class="text-xs text-green-700 font-bold mt-0.5">Fleet Logistics</p>
+            <p class="text-xs text-gray-600 mt-3 leading-relaxed">Guaranteed PKR 20/km earnings before accept, customer PIN handover proof, and instant Raast cashouts.</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-200/80">
+            <a href="https://github.com/abubaker082512/noshkhor/releases" class="block text-center py-2.5 rounded-xl font-bold text-xs bg-charcoal text-white hover:bg-black transition-colors">
+              Download APK (57.1 MB)
+            </a>
+          </div>
+        </div>
+
+        <!-- App 4: Super Admin -->
+        <div class="bg-[#FAF9F5] p-6 rounded-3xl border border-gray-200 flex flex-col justify-between hover:shadow-lg transition-all">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center text-white text-2xl font-black mb-4 shadow-md">⚡</div>
+            <h3 class="text-lg font-black text-charcoal">Super Admin</h3>
+            <p class="text-xs text-slate-700 font-bold mt-0.5">Command Center</p>
+            <p class="text-xs text-gray-600 mt-3 leading-relaxed">Geofence delivery polygon management, automated Tuesday/Friday settlement dispatch, and live dispute consoles.</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-200/80">
+            <a href="https://github.com/abubaker082512/noshkhor/releases" class="block text-center py-2.5 rounded-xl font-bold text-xs bg-charcoal text-white hover:bg-black transition-colors">
+              Download APK (58.2 MB)
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-charcoal text-white py-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl overflow-hidden">
+            <img src="assets/images/noshkhor_logo.png" alt="NoshKhor Logo" class="w-full h-full object-cover">
+          </div>
+          <span class="text-xl font-black text-white">NoshKhor (نوش خور)</span>
+        </div>
+        <p class="text-xs text-gray-400 text-center md:text-right">
+          Built with pride for Pakistan 🇵🇰 • Powered by Raast, JazzCash, Easypaisa & 1LINK
+        </p>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div>&copy; 2026 NoshKhor Technologies (Pvt) Ltd. All Rights Reserved.</div>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-white transition-colors">Dine-In Parity Audit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Tab Switching
+    function switchTab(type) {
+      const vendorContainer = document.getElementById('vendor-form-container');
+      const riderContainer = document.getElementById('rider-form-container');
+      const vendorBtn = document.getElementById('tab-btn-vendor');
+      const riderBtn = document.getElementById('tab-btn-rider');
+
+      if (type === 'vendor') {
+        vendorContainer.classList.remove('hidden');
+        riderContainer.classList.add('hidden');
+        vendorBtn.className = "px-6 py-2.5 rounded-xl font-bold text-sm text-white gradient-sunset shadow-sm transition-all";
+        riderBtn.className = "px-6 py-2.5 rounded-xl font-bold text-sm text-gray-600 hover:text-charcoal transition-all";
+      } else {
+        vendorContainer.classList.add('hidden');
+        riderContainer.classList.remove('hidden');
+        riderBtn.className = "px-6 py-2.5 rounded-xl font-bold text-sm text-white bg-markhorGreen shadow-sm transition-all";
+        vendorBtn.className = "px-6 py-2.5 rounded-xl font-bold text-sm text-gray-600 hover:text-charcoal transition-all";
+      }
+    }
+
+    // Interactive Distance & Delivery Fee Calculator
+    const slider = document.getElementById('distance-slider');
+    const distanceVal = document.getElementById('distance-val');
+    const calcKm = document.getElementById('calc-km');
+    const distanceCost = document.getElementById('distance-cost');
+    const totalFee = document.getElementById('total-delivery-fee');
+
+    slider.addEventListener('input', (e) => {
+      const km = parseFloat(e.target.value);
+      distanceVal.innerText = `${km.toFixed(1)} KM`;
+      calcKm.innerText = km.toFixed(1);
+      const distPkr = Math.round(km * 20);
+      const total = 40 + distPkr;
+      distanceCost.innerText = `PKR ${distPkr}`;
+      totalFee.innerText = `PKR ${total}`;
+    });
+
+    // Form Submissions
+    function handleVendorSubmit(e) {
+      e.preventDefault();
+      alert('🎉 Shukriya! Your restaurant registration has been submitted. Our onboarding lead will contact your WhatsApp within 4 hours to verify dine-in menu parity and set up your kitchen terminal.');
+      e.target.reset();
+    }
+
+    function handleRiderSubmit(e) {
+      e.preventDefault();
+      alert('⚡ Mubarak! Your Markhor Rider Fleet application has been submitted. Bring your original CNIC and bike documents to our Lahore/Karachi center for same-day gear dispatch.');
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
