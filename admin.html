@@ -78,6 +78,12 @@
           <span id="badge-vendor-count" class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">0</span>
         </a>
 
+        <a href="#kyc" onclick="switchAdminTab('kyc')" id="nav-kyc" class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+          <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span>KYC & Verification</span>
+          <span id="badge-pending-kyc" class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-saffron/20 text-brand-saffron">0</span>
+        </a>
+
         <a href="#orders" onclick="switchAdminTab('orders')" id="nav-orders" class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
           <span>Live Dispatch Queue</span>
@@ -275,6 +281,51 @@
                 <!-- Dynamically populated -->
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2.5 KYC & PHOTO VERIFICATION HUB -->
+      <section id="panel-kyc" class="space-y-8 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-black text-white">KYC & Regulatory Verification Hub</h2>
+            <p class="text-xs text-slate-400">Punjab Food Authority (PFA), Sindh Food Authority (SFA) hygiene audits & Rider Safety Verification.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-brand-gold border border-amber-500/30">
+              Menu Creation Gate Active
+            </span>
+          </div>
+        </div>
+
+        <!-- Section A: Restaurant KYC & Kitchen Photo Audits -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+              <span>🍽️ Restaurant & Kitchen Applications</span>
+              <span id="kyc-vendor-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">0</span>
+            </h3>
+            <span class="text-[11px] text-slate-400">Newly registered restaurants cannot publish menu dishes until approved here.</span>
+          </div>
+
+          <div id="kyc-vendors-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamically populated vendor KYC cards with photo proofs -->
+          </div>
+        </div>
+
+        <!-- Section B: Rider Safety & License Verification -->
+        <div class="space-y-4 pt-6 border-t border-slate-800">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+              <span>🏍️ Rider Fleet Applications</span>
+              <span id="kyc-rider-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">0</span>
+            </h3>
+            <span class="text-[11px] text-slate-400">Checking Driving License, Bike Registration, and Helmet safety selfie.</span>
+          </div>
+
+          <div id="kyc-riders-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamically populated rider KYC cards with photo proofs -->
           </div>
         </div>
       </section>
@@ -516,13 +567,15 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
     // Local in-browser storage key (Shared with flutter Web / local fallback)
     const STORAGE_VENDORS_KEY = 'noshkhor_vendors_v1';
     const STORAGE_ORDERS_KEY = 'noshkhor_orders_v1';
+    const STORAGE_RIDERS_KEY = 'noshkhor_riders_v1';
 
     let inMemoryVendors = [];
     let inMemoryOrders = [];
+    let inMemoryRiders = [];
 
     // Tab Navigation
     function switchAdminTab(tab) {
-      const tabs = ['overview', 'vendors', 'orders', 'settlements', 'pricing'];
+      const tabs = ['overview', 'vendors', 'kyc', 'orders', 'settlements', 'pricing'];
       tabs.forEach(t => {
         const panel = document.getElementById(`panel-${t}`);
         const nav = document.getElementById(`nav-${t}`);
@@ -539,6 +592,7 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       const headingMap = {
         overview: 'Operations Command Center',
         vendors: 'Restaurant & Merchant Directory',
+        kyc: 'KYC & Regulatory Verification Hub',
         orders: 'Live Kitchen Dispatch Board',
         settlements: 'Raast P2M Settlement Engine',
         pricing: 'Geofencing & Distance Matrix'
@@ -551,6 +605,7 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       // 1. Try fetching from Supabase Cloud
       let cloudVendors = [];
       let cloudOrders = [];
+      let cloudRiders = [];
 
       if (supabaseClient) {
         try {
@@ -559,6 +614,9 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
 
           const { data: oData, error: oErr } = await supabaseClient.from('orders').select('*');
           if (!oErr && oData && oData.length > 0) cloudOrders = oData;
+
+          const { data: rData, error: rErr } = await supabaseClient.from('riders').select('*');
+          if (!rErr && rData && rData.length > 0) cloudRiders = rData;
         } catch (e) {
           console.log('Supabase sync note:', e);
         }
@@ -571,6 +629,9 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       const localOStr = localStorage.getItem(STORAGE_ORDERS_KEY);
       const localOrders = localOStr ? JSON.parse(localOStr) : [];
 
+      const localRStr = localStorage.getItem(STORAGE_RIDERS_KEY);
+      const localRiders = localRStr ? JSON.parse(localRStr) : [];
+
       // Merge (cloud takes precedence for identical IDs)
       const vMap = new Map();
       localVendors.forEach(v => vMap.set(v.id, v));
@@ -582,6 +643,11 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       cloudOrders.forEach(o => oMap.set(o.id, o));
       inMemoryOrders = Array.from(oMap.values());
 
+      const rMap = new Map();
+      localRiders.forEach(r => rMap.set(r.id, r));
+      cloudRiders.forEach(r => rMap.set(r.id, r));
+      inMemoryRiders = Array.from(rMap.values());
+
       renderUI();
     }
 
@@ -590,6 +656,15 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       document.getElementById('stat-vendors').innerText = inMemoryVendors.length;
       document.getElementById('badge-vendor-count').innerText = inMemoryVendors.length;
       document.getElementById('stat-orders').innerText = inMemoryOrders.length;
+
+      // Pending KYC counters
+      const pendingVendors = inMemoryVendors.filter(v => v.is_approved === false);
+      const pendingRiders = inMemoryRiders.filter(r => r.is_approved === false);
+      const totalPending = pendingVendors.length + pendingRiders.length;
+
+      document.getElementById('badge-pending-kyc').innerText = totalPending;
+      document.getElementById('kyc-vendor-badge').innerText = `${pendingVendors.length} Pending Audit`;
+      document.getElementById('kyc-rider-badge').innerText = `${pendingRiders.length} Pending Audit`;
 
       // Calculate GMV & Settlements
       let totalGmv = 0;
@@ -603,6 +678,8 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       document.getElementById('settlement-gross').innerText = `PKR ${totalGmv.toLocaleString()}`;
       document.getElementById('settlement-commission').innerText = `PKR ${totalCommission.toLocaleString()}`;
       document.getElementById('settlement-net').innerText = `PKR ${(totalGmv - totalCommission).toLocaleString()}`;
+
+      renderKycHub(pendingVendors, pendingRiders);
 
       // Render Live Orders table
       const tbody = document.getElementById('live-orders-table-body');
@@ -777,6 +854,190 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
         supabaseClient.from('vendors').delete().eq('id', id).then(() => {});
       }
       renderUI();
+    }
+
+    // KYC Verification & Approval Engine
+    function renderKycHub(pendingVendors, pendingRiders) {
+      // 1. Render Pending Restaurant Applications
+      const vContainer = document.getElementById('kyc-vendors-container');
+      if (!vContainer) return;
+
+      if (pendingVendors.length === 0) {
+        vContainer.innerHTML = `
+          <div class="col-span-1 md:col-span-2 p-8 text-center rounded-2xl bg-slate-900 border border-slate-800 text-slate-400">
+            <div class="text-3xl mb-2">✨</div>
+            <div class="font-bold text-white text-sm">All Kitchens Audited & Approved</div>
+            <div class="text-xs text-slate-500 mt-1">Newly submitted restaurant forms from the website or mobile app will appear here for PFA/SFA hygiene review.</div>
+          </div>
+        `;
+      } else {
+        vContainer.innerHTML = pendingVendors.map(v => {
+          const kPhoto = v.kitchen_photo_url || 'assets/images/noshkhor_logo.png';
+          const oPhoto = v.owner_photo_url || 'assets/images/noshkhor_logo.png';
+          const cPhoto = v.cnic_photo_url || 'assets/images/noshkhor_logo.png';
+          const lPhoto = v.food_license_url || 'assets/images/noshkhor_logo.png';
+          const typeStr = v.type === 'homeChef' ? '👩‍🍳 HomeChef' : '🍽️ Restaurant';
+
+          return `
+            <div class="bg-slate-900 border-2 border-amber-500/40 rounded-3xl p-6 space-y-5 relative overflow-hidden shadow-xl">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono">${typeStr}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 font-mono">MENU LOCKED</span>
+                  </div>
+                  <h4 class="text-lg font-black text-white mt-1.5">${v.name}</h4>
+                  <p class="text-xs text-slate-400">${v.address || 'Lahore'} • Raast: <span class="font-mono text-slate-300">${v.raast_id || '—'}</span></p>
+                  <p class="text-[11px] text-slate-400 mt-1">Owner: <strong class="text-white">${v.owner_name || 'Chef'}</strong> • Phone: <span class="font-mono">${v.owner_phone || '—'}</span></p>
+                </div>
+              </div>
+
+              <!-- KYC Document Photo Gallery -->
+              <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Uploaded KYC Proofs:</div>
+                <div class="grid grid-cols-4 gap-2">
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${kPhoto}" alt="Kitchen" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">1. Kitchen</span>
+                  </div>
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${oPhoto}" alt="Owner" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">2. Owner</span>
+                  </div>
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${cPhoto}" alt="CNIC" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">3. CNIC</span>
+                  </div>
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${lPhoto}" alt="License" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">4. License</span>
+                  </div>
+                </div>
+              </div>
+
+              <button onclick="approveVendorFromAdmin('${v.id}')" class="w-full py-3 rounded-xl font-black text-xs text-white bg-brand-emerald hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Approve Restaurant & Unlock Menu Privileges</span>
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 2. Render Pending Rider Applications
+      const rContainer = document.getElementById('kyc-riders-container');
+      if (!rContainer) return;
+
+      if (pendingRiders.length === 0) {
+        rContainer.innerHTML = `
+          <div class="col-span-1 md:col-span-2 p-8 text-center rounded-2xl bg-slate-900 border border-slate-800 text-slate-400">
+            <div class="text-3xl mb-2">🏍️</div>
+            <div class="font-bold text-white text-sm">All Fleet Riders Verified</div>
+            <div class="text-xs text-slate-500 mt-1">Newly submitted rider partner applications will appear here for helmet selfie & license review.</div>
+          </div>
+        `;
+      } else {
+        rContainer.innerHTML = pendingRiders.map(r => {
+          const hPhoto = r.rider_selfie_url || 'assets/images/noshkhor_logo.png';
+          const cPhoto = r.cnic_photo_url || 'assets/images/noshkhor_logo.png';
+          const bPhoto = r.motorcycle_photo_url || 'assets/images/noshkhor_logo.png';
+          const lPhoto = r.license_photo_url || 'assets/images/noshkhor_logo.png';
+
+          return `
+            <div class="bg-slate-900 border-2 border-emerald-500/40 rounded-3xl p-6 space-y-5 relative overflow-hidden shadow-xl">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">🏍️ RIDER FLEET</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono">PENDING SHIFT</span>
+                  </div>
+                  <h4 class="text-lg font-black text-white mt-1.5">${r.full_name || 'Fleet Partner'}</h4>
+                  <p class="text-xs text-slate-400">${r.motorcycle_model || 'Honda CD 70'} • Plate: <span class="font-mono text-brand-gold font-bold">${r.registration_number || '—'}</span></p>
+                  <p class="text-[11px] text-slate-400 mt-1">CNIC: <span class="font-mono text-slate-300">${r.cnic_number || '—'}</span> • Phone: <span class="font-mono">${r.phone || '—'}</span></p>
+                </div>
+              </div>
+
+              <!-- Rider Photo Proofs -->
+              <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Safety & Document Proofs:</div>
+                <div class="grid grid-cols-4 gap-2">
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${hPhoto}" alt="Helmet" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">1. Helmet Selfie</span>
+                  </div>
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${cPhoto}" alt="CNIC" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">2. CNIC</span>
+                  </div>
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${bPhoto}" alt="Bike" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">3. Motorcycle</span>
+                  </div>
+                  <div class="space-y-1 text-center">
+                    <div class="w-full h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 cursor-pointer hover:opacity-80 transition-opacity">
+                      <img src="${lPhoto}" alt="License" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[9px] font-medium text-slate-400 block truncate">4. License</span>
+                  </div>
+                </div>
+              </div>
+
+              <button onclick="approveRiderFromAdmin('${r.id}')" class="w-full py-3 rounded-xl font-black text-xs text-white bg-brand-emerald hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Approve Rider Partner & Unlock Duty Radar</span>
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    async function approveVendorFromAdmin(vendorId) {
+      const v = inMemoryVendors.find(x => x.id === vendorId);
+      if (!v) return;
+
+      v.is_approved = true;
+      localStorage.setItem(STORAGE_VENDORS_KEY, JSON.stringify(inMemoryVendors));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('vendors').update({ is_approved: true }).eq('id', vendorId);
+        } catch (_) {}
+      }
+
+      renderUI();
+      alert(`🎉 "${v.name}" has been approved!\n\nMenu item management is now unlocked in the Vendor App POS, and the restaurant is visible on the Customer App.`);
+    }
+
+    async function approveRiderFromAdmin(riderId) {
+      const r = inMemoryRiders.find(x => x.id === riderId);
+      if (!r) return;
+
+      r.is_approved = true;
+      localStorage.setItem(STORAGE_RIDERS_KEY, JSON.stringify(inMemoryRiders));
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('riders').update({ is_approved: true }).eq('id', riderId);
+        } catch (_) {}
+      }
+
+      renderUI();
+      alert(`⚡ Rider Partner "${r.full_name}" has been approved! Shift radar is now unlocked.`);
     }
 
     function downloadSettlementCsv() {

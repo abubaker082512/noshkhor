@@ -344,6 +344,35 @@
             <textarea rows="3" placeholder="Tell us your most popular dishes and approximate preparation times..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-saffron text-sm"></textarea>
           </div>
 
+          <!-- KYC & PHOTO PROOFS (REQUIRED FOR MENU APPROVAL) -->
+          <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-amber-900 font-black text-xs uppercase tracking-wider">📸 KYC Verification & Kitchen Photos (PFA/SFA Compliance)</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-200 text-amber-900">Audit Gate</span>
+            </div>
+            <p class="text-[11.5px] text-amber-900/80 leading-normal">
+              In accordance with Punjab/Sindh Food Authority hygiene guidelines and NoshKhor's dine-in price parity audit, newly registered restaurants must upload photos. <strong>Menu editing will unlock upon Super Admin approval.</strong>
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">1. Kitchen / Cooking Area Photo *</label>
+                <input type="file" id="v-photo-kitchen" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-100 file:text-saffron hover:file:bg-orange-200 cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">2. Owner / Head Chef Photo *</label>
+                <input type="file" id="v-photo-owner" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-100 file:text-saffron hover:file:bg-orange-200 cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">3. Owner CNIC Photo (Original) *</label>
+                <input type="file" id="v-photo-cnic" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-100 file:text-saffron hover:file:bg-orange-200 cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">4. PFA / SFA License or Cert *</label>
+                <input type="file" id="v-photo-license" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-100 file:text-saffron hover:file:bg-orange-200 cursor-pointer">
+              </div>
+            </div>
+          </div>
+
           <div class="p-4 rounded-2xl bg-orange-50 border border-orange-200 text-xs text-orange-900 leading-relaxed font-medium">
             🤝 <strong>NoshKhor Fair Partnership Commitment:</strong> No hidden commission inflation. Bi-weekly Tuesday and Friday automated settlements via Raast / 1LINK. Same-day menu digitization.
           </div>
@@ -418,6 +447,35 @@
             <div>
               <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Emergency Contact (Relation & Phone) *</label>
               <input type="text" required placeholder="Father / Brother — 0300-XXXXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-emerald text-sm">
+            </div>
+          </div>
+
+          <!-- RIDER KYC & PHOTO PROOFS (REQUIRED) -->
+          <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-emerald-950 font-black text-xs uppercase tracking-wider">📸 Rider Safety & Verification Photos (Required)</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900">Same-Day Approval</span>
+            </div>
+            <p class="text-[11.5px] text-emerald-950/80 leading-normal">
+              Please upload clear photos for instant verification by the city fleet captain. Accounts are reviewed and authorized within 2 hours.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">1. Rider Selfie with Helmet *</label>
+                <input type="file" id="r-photo-helmet" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200 cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">2. Original CNIC Photo *</label>
+                <input type="file" id="r-photo-cnic" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200 cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">3. Motorcycle with Number Plate *</label>
+                <input type="file" id="r-photo-bike" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200 cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-700 uppercase mb-1">4. Driving License / Learner Permit *</label>
+                <input type="file" id="r-photo-license" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200 cursor-pointer">
+              </div>
             </div>
           </div>
 
@@ -593,6 +651,16 @@
       });
     }
 
+    function readFileAsBase64(file) {
+      return new Promise((resolve) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = () => resolve(null);
+        reader.readAsDataURL(file);
+      });
+    }
+
     // Form Submissions Interconnected with Cloud & Admin
     async function handleVendorSubmit(e) {
       e.preventDefault();
@@ -608,6 +676,19 @@
         if (i.placeholder && i.placeholder.includes('Full Name')) data.owner = i.value.trim();
       });
 
+      // Read KYC photos
+      const kFile = document.getElementById('v-photo-kitchen')?.files[0];
+      const oFile = document.getElementById('v-photo-owner')?.files[0];
+      const cFile = document.getElementById('v-photo-cnic')?.files[0];
+      const lFile = document.getElementById('v-photo-license')?.files[0];
+
+      const [kPhoto, oPhoto, cPhoto, lPhoto] = await Promise.all([
+        readFileAsBase64(kFile),
+        readFileAsBase64(oFile),
+        readFileAsBase64(cFile),
+        readFileAsBase64(lFile)
+      ]);
+
       const newVendor = {
         id: uuidv4(),
         name: data.name || 'New Restaurant Partner',
@@ -621,8 +702,15 @@
         delivery_radius_km: 6.0,
         commission_rate: data.type === 'homeChef' ? 0.10 : 0.12,
         raast_id: data.raast || '03001234567@raast',
+        owner_name: data.owner || '',
+        owner_phone: data.phone || '',
+        kitchen_photo_url: kPhoto || '',
+        owner_photo_url: oPhoto || '',
+        cnic_photo_url: cPhoto || '',
+        food_license_url: lPhoto || '',
         is_active: true,
         is_accepting_orders: true,
+        is_approved: false, // Must be approved by Admin before menu can be populated
       };
 
       // 1. Save to shared local storage cache
@@ -638,14 +726,72 @@
         } catch (_) {}
       }
 
-      alert(`🎉 Shukriya! "${newVendor.name}" has been registered. Your store is now active and synchronized across the NoshKhor Web Admin and Mobile Customer APK!`);
+      alert(`🎉 Shukriya! "${newVendor.name}" application submitted with KYC photos!\n\nStatus: ⏳ Under Audit (Menu Locked)\nIn compliance with PFA/SFA standards, our Super Admin will review your kitchen & price parity. Once approved, you can add dishes in the Vendor App!`);
       form.reset();
     }
 
-    function handleRiderSubmit(e) {
+    async function handleRiderSubmit(e) {
       e.preventDefault();
-      alert('⚡ Mubarak! Your Markhor Rider Fleet application has been recorded. Our Lahore & Karachi fleet captains will contact your WhatsApp within 2 hours for gear pass dispatch.');
-      e.target.reset();
+      const form = e.target;
+      const inputs = form.querySelectorAll('input, select');
+      const data = {};
+      inputs.forEach(i => {
+        if (i.placeholder && i.placeholder.includes('Hamza Ali')) data.name = i.value.trim();
+        if (i.placeholder && i.placeholder.includes('35202-')) data.cnic = i.value.trim();
+        if (i.placeholder && i.placeholder.includes('0321-')) data.phone = i.value.trim();
+        if (i.placeholder && i.placeholder.includes('Honda CD')) data.bike = i.value.trim();
+        if (i.placeholder && i.placeholder.includes('LEH-7842')) data.plate = i.value.trim();
+        if (i.placeholder && i.placeholder.includes('License')) data.license = i.value.trim();
+        if (i.placeholder && i.placeholder.includes('raast')) data.raast = i.value.trim();
+      });
+
+      // Read Rider KYC Photos
+      const hFile = document.getElementById('r-photo-helmet')?.files[0];
+      const cFile = document.getElementById('r-photo-cnic')?.files[0];
+      const bFile = document.getElementById('r-photo-bike')?.files[0];
+      const lFile = document.getElementById('r-photo-license')?.files[0];
+
+      const [hPhoto, cPhoto, bPhoto, lPhoto] = await Promise.all([
+        readFileAsBase64(hFile),
+        readFileAsBase64(cFile),
+        readFileAsBase64(bFile),
+        readFileAsBase64(lFile)
+      ]);
+
+      const newRider = {
+        id: uuidv4(),
+        full_name: data.name || 'Markhor Rider',
+        cnic_number: data.cnic || '35202-0000000-0',
+        phone: data.phone || '0300-0000000',
+        city_zone: 'Lahore — Gulberg & DHA',
+        motorcycle_model: data.bike || 'Honda CD 70',
+        registration_number: data.plate || 'LEH-0000',
+        driving_license: data.license || 'LHR-DL-0000',
+        raast_id: data.raast || '03000000000@raast',
+        rider_selfie_url: hPhoto || '',
+        cnic_photo_url: cPhoto || '',
+        motorcycle_photo_url: bPhoto || '',
+        license_photo_url: lPhoto || '',
+        is_approved: false,
+        is_active: true,
+        created_at: new Date().toISOString()
+      };
+
+      // 1. Save to shared local storage cache
+      const stored = localStorage.getItem('noshkhor_riders_v1');
+      const list = stored ? JSON.parse(stored) : [];
+      list.push(newRider);
+      localStorage.setItem('noshkhor_riders_v1', JSON.stringify(list));
+
+      // 2. Synchronize to Supabase Cloud
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('riders').insert([newRider]);
+        } catch (_) {}
+      }
+
+      alert(`⚡ Mubarak! Rider partner application submitted for "${newRider.full_name}".\n\nSafety gear photos and driving license recorded. Once approved by Super Admin, your shift radar will go live!`);
+      form.reset();
     }
   </script>
 </body>
