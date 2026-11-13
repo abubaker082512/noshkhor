@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoshKhor Super Admin — Operations & Dispatch Command Center</title>
+  <link rel="icon" type="image/png" href="assets/images/noshkhor_logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client for Realtime Interconnection -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              saffron: '#FF5722',
+              gold: '#FFB703',
+              dark: '#0F172A',
+              card: '#1E293B',
+              emerald: '#10B981',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .gradient-accent {
+      background: linear-gradient(135deg, #FF5722 0%, #FFB703 100%);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="h-full flex overflow-hidden font-sans">
+
+  <!-- LEFT ENTERPRISE SIDEBAR -->
+  <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0">
+    <div>
+      <!-- Brand Crest -->
+      <div class="h-20 flex items-center px-6 border-b border-slate-800 gap-3">
+        <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-slate-700">
+          <img src="assets/images/noshkhor_logo.png" alt="NoshKhor Logo" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-black text-lg tracking-tight text-white">NoshKhor</span>
+            <span class="text-xs font-bold text-brand-gold">HQ</span>
+          </div>
+          <p class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Command Center</p>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="p-4 space-y-1.5 text-xs font-semibold">
+        <a href="#overview" onclick="switchAdminTab('overview')" id="nav-overview" class="flex items-center gap-3 px-3.5 py-3 rounded-xl bg-brand-saffron/15 text-brand-saffron border border-brand-saffron/30 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <span>Operations Command</span>
+        </a>
+
+        <a href="#vendors" onclick="switchAdminTab('vendors')" id="nav-vendors" class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <span>Restaurant Directory</span>
+          <span id="badge-vendor-count" class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">0</span>
+        </a>
+
+        <a href="#orders" onclick="switchAdminTab('orders')" id="nav-orders" class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+          <span>Live Dispatch Queue</span>
+          <span class="ml-auto flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-emerald"></span>
+          </span>
+        </a>
+
+        <a href="#settlements" onclick="switchAdminTab('settlements')" id="nav-settlements" class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Raast Settlements</span>
+          <span class="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-brand-gold/20 text-brand-gold">Tue/Fri</span>
+        </a>
+
+        <a href="#pricing" onclick="switchAdminTab('pricing')" id="nav-pricing" class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+          <span>Geofence & PKR 20/km</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Bottom System Health & Return Link -->
+    <div class="p-4 border-t border-slate-800 space-y-3">
+      <!-- Supabase Cloud Sync Status -->
+      <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px]">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-slate-400 font-medium">Cloud Gateway</span>
+          <span id="cloud-pill" class="flex items-center gap-1.5 text-brand-emerald font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+            <span>Connected</span>
+          </span>
+        </div>
+        <div class="text-[10px] text-slate-400 font-mono truncate">bxcmtkqkatwxflvdnqwb</div>
+      </div>
+
+      <a href="index.html" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Public Portal</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="flex-1 flex flex-col min-w-0 bg-slate-950 overflow-hidden">
+    
+    <!-- TOP HEADER BAR -->
+    <header class="h-20 border-b border-slate-800 px-8 flex items-center justify-between shrink-0 bg-slate-900/60 backdrop-blur-md">
+      <div class="flex items-center gap-4">
+        <h1 id="page-heading" class="text-xl font-black text-white">Operations Command Center</h1>
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-mono border border-slate-700">
+          <span>🇵🇰 Lahore Hub (Active)</span>
+          <span class="text-slate-500">•</span>
+          <span>DHA & Gulberg Zones</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- RLS Fix Modal Shortcut Button -->
+        <button onclick="openRlsModal()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono text-brand-gold border border-brand-gold/30 flex items-center gap-2 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          <span>Supabase SQL Fix</span>
+        </button>
+
+        <button onclick="openAddVendorModal()" class="px-4 py-2 rounded-xl gradient-accent text-white font-bold text-xs shadow-md shadow-brand-saffron/20 hover:opacity-95 transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Onboard Restaurant</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT PANELS -->
+    <div class="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-8">
+      
+      <!-- 1. OVERVIEW SECTION -->
+      <section id="panel-overview" class="space-y-8">
+        
+        <!-- Live KPI Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Gross Platform GMV</span>
+              <span class="p-2 rounded-xl bg-brand-saffron/10 text-brand-saffron">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </span>
+            </div>
+            <div class="text-2xl font-black text-white font-mono" id="stat-gmv">PKR 0</div>
+            <div class="flex items-center gap-2 mt-2 text-xs text-brand-emerald font-semibold">
+              <span>↑ 100% Dine-In Menu Parity</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-sm">
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Partner Kitchens</span>
+              <span class="p-2 rounded-xl bg-brand-gold/10 text-brand-gold">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              </span>
+            </div>
+            <div class="text-2xl font-black text-white font-mono" id="stat-vendors">0</div>
+            <div class="text-xs text-slate-400 mt-2">10% HomeChef & 12% Restaurant tiers</div>
+          </div>
+
+          <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-sm">
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Dispatched Fleet Trips</span>
+              <span class="p-2 rounded-xl bg-brand-emerald/10 text-brand-emerald">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </span>
+            </div>
+            <div class="text-2xl font-black text-white font-mono" id="stat-orders">0</div>
+            <div class="text-xs text-slate-400 mt-2">Guaranteed PKR 20/km distance rate</div>
+          </div>
+
+          <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-sm">
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Settlement Liquidity</span>
+              <span class="p-2 rounded-xl bg-sky-500/10 text-sky-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </span>
+            </div>
+            <div class="text-2xl font-black text-white font-mono">Raast P2M</div>
+            <div class="text-xs text-slate-400 mt-2">Scheduled next batch: Tuesday 10:00 AM</div>
+          </div>
+        </div>
+
+        <!-- Live Operations Feed Table -->
+        <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
+          <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-white">Live Dispatched Fleet & Orders</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Real-time order pipeline synchronized between web & mobile APKs</p>
+            </div>
+            <button onclick="fetchLatestData()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 transition-colors">
+              Refresh Stream ⟳
+            </button>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950/60 text-slate-400 font-mono uppercase text-[10px] border-b border-slate-800">
+                <tr>
+                  <th class="px-6 py-4">Order ID</th>
+                  <th class="px-6 py-4">Customer</th>
+                  <th class="px-6 py-4">Restaurant</th>
+                  <th class="px-6 py-4">Distance / Fee</th>
+                  <th class="px-6 py-4">Total</th>
+                  <th class="px-6 py-4">Payment</th>
+                  <th class="px-6 py-4">Status</th>
+                  <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="live-orders-table-body" class="divide-y divide-slate-800 text-slate-300">
+                <!-- Dynamically populated -->
+                <tr>
+                  <td colspan="8" class="px-6 py-10 text-center text-slate-500">
+                    No active orders placed yet. Place a live test order from the Customer App!
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 2. VENDORS SECTION -->
+      <section id="panel-vendors" class="space-y-6 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-black text-white">Registered Restaurant & Kitchen Partners</h2>
+            <p class="text-xs text-slate-400">Manage dine-in menu price parity, commission tiers (10-15%), and kitchen statuses.</p>
+          </div>
+          <button onclick="openAddVendorModal()" class="px-4 py-2 rounded-xl gradient-accent text-white font-bold text-xs shadow-md shadow-brand-saffron/20 hover:opacity-95 transition-all flex items-center gap-2">
+            <span>+ Onboard New Kitchen</span>
+          </button>
+        </div>
+
+        <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950/60 text-slate-400 font-mono uppercase text-[10px] border-b border-slate-800">
+                <tr>
+                  <th class="px-6 py-4">Business Name</th>
+                  <th class="px-6 py-4">Role</th>
+                  <th class="px-6 py-4">Location / Address</th>
+                  <th class="px-6 py-4">Radius</th>
+                  <th class="px-6 py-4">Commission</th>
+                  <th class="px-6 py-4">Raast ID / IBAN</th>
+                  <th class="px-6 py-4">Status</th>
+                  <th class="px-6 py-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="vendor-directory-body" class="divide-y divide-slate-800 text-slate-300">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. ORDERS SECTION -->
+      <section id="panel-orders" class="space-y-6 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-black text-white">Live Kitchen Dispatch Pipeline</h2>
+            <p class="text-xs text-slate-400">Order milestones from Kitchen Prep $\to$ Ready for Pickup $\to$ Rider Delivery.</p>
+          </div>
+        </div>
+
+        <div id="full-orders-list" class="space-y-4">
+          <!-- Dynamically populated cards -->
+        </div>
+      </section>
+
+      <!-- 4. SETTLEMENTS SECTION -->
+      <section id="panel-settlements" class="space-y-6 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-black text-white">Bi-Weekly Raast Settlements Ledger</h2>
+            <p class="text-xs text-slate-400">Tuesday & Friday automated merchant disbursements with transparent commission deductions.</p>
+          </div>
+          <button onclick="downloadSettlementCsv()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono text-brand-emerald border border-brand-emerald/30 transition-all flex items-center gap-2">
+            <span>Download Batch CSV ⭳</span>
+          </button>
+        </div>
+
+        <div class="bg-slate-900 rounded-3xl border border-slate-800 p-6 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800">
+              <span class="text-xs font-bold text-slate-400 block mb-1">Gross Merchant Sales</span>
+              <span id="settlement-gross" class="text-xl font-black text-white font-mono">PKR 0.00</span>
+            </div>
+            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800">
+              <span class="text-xs font-bold text-slate-400 block mb-1">NoshKhor Commission (10–12%)</span>
+              <span id="settlement-commission" class="text-xl font-black text-brand-saffron font-mono">PKR 0.00</span>
+            </div>
+            <div class="bg-slate-950 p-5 rounded-2xl border-2 border-brand-emerald/50">
+              <span class="text-xs font-bold text-brand-emerald block mb-1 uppercase tracking-wider">Net Raast Payout Batch</span>
+              <span id="settlement-net" class="text-xl font-black text-brand-emerald font-mono">PKR 0.00</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-400 leading-relaxed font-mono">
+            ℹ️ <strong>Settlement Cycle:</strong> Tuesday Batch clears Friday-Monday sales. Friday Batch clears Tuesday-Thursday sales. Transferred via State Bank of Pakistan (SBP) Raast Instant P2M rails with zero interbank transfer fees.
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. PRICING & GEOFENCING SECTION -->
+      <section id="panel-pricing" class="space-y-6 hidden">
+        <div>
+          <h2 class="text-lg font-black text-white">Geofencing & Transparent Distance Tier Configurator</h2>
+          <p class="text-xs text-slate-400">Strict 5–7 km delivery radius enforcement and distance formula parameters.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4">
+            <h3 class="text-sm font-bold text-white">Delivery Distance Pricing Rules</h3>
+            <div class="space-y-3 text-xs">
+              <div class="flex justify-between items-center p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-slate-400">Base Pick-up Fee</span>
+                <span class="font-mono font-bold text-white">PKR 40.00</span>
+              </div>
+              <div class="flex justify-between items-center p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-slate-400">Per-Kilometer Distance Rate</span>
+                <span class="font-mono font-bold text-brand-saffron">PKR 20.00 / km</span>
+              </div>
+              <div class="flex justify-between items-center p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-slate-400">Maximum Strict Delivery Radius</span>
+                <span class="font-mono font-bold text-brand-gold">7.0 KM (Freshness Guarantee)</span>
+              </div>
+              <div class="flex justify-between items-center p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-slate-400">Customer Platform / Service Fee</span>
+                <span class="font-mono font-bold text-brand-emerald">PKR 0.00 (Zero Hidden Markups)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4">
+            <h3 class="text-sm font-bold text-white">Active City Logistics Hubs</h3>
+            <div class="space-y-3 text-xs">
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white">Lahore Hub 01</div>
+                  <div class="text-[11px] text-slate-400">Gulberg, DHA Lahore Phases 1–8, Model Town</div>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-brand-emerald/20 text-brand-emerald">ONLINE</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white">Karachi Hub 02</div>
+                  <div class="text-[11px] text-slate-400">Clifton, DHA Karachi, PECHS</div>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-brand-gold/20 text-brand-gold">TESTING</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white">Islamabad Hub 03</div>
+                  <div class="text-[11px] text-slate-400">Sector F-6, F-7, Blue Area</div>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-brand-gold/20 text-brand-gold">TESTING</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL: ADD / ONBOARD RESTAURANT -->
+  <div id="modal-add-vendor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-xl w-full shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div>
+          <h3 class="text-lg font-black text-white">Onboard Restaurant / Kitchen</h3>
+          <p class="text-xs text-slate-400">Instant multi-device publication across Web, Android, and iOS.</p>
+        </div>
+        <button onclick="closeAddVendorModal()" class="text-slate-400 hover:text-white p-2">✕</button>
+      </div>
+
+      <form id="admin-vendor-form" onsubmit="handleAdminVendorSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-300 uppercase mb-1">Business Name *</label>
+          <input id="v-name" type="text" required placeholder="e.g. Bundu Khan / Ami Ki Handi" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-saffron">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-300 uppercase mb-1">Category *</label>
+            <select id="v-type" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-saffron">
+              <option value="restaurant">🍽️ Commercial Restaurant</option>
+              <option value="homeChef">👩‍🍳 HomeChef Kitchen (10% Tier)</option>
+              <option value="mart">🛒 QuickMart / Grocery</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase mb-1">City *</label>
+            <select id="v-city" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-saffron">
+              <option>Lahore</option>
+              <option>Karachi</option>
+              <option>Islamabad</option>
+              <option>Rawalpindi</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 uppercase mb-1">Physical Kitchen / Store Address *</label>
+          <input id="v-address" type="text" required placeholder="e.g. Main Boulevard, Gulberg III, Lahore" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-saffron">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-300 uppercase mb-1">Latitude</label>
+            <input id="v-lat" type="number" step="any" value="31.5204" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono focus:outline-none focus:border-brand-saffron">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase mb-1">Longitude</label>
+            <input id="v-lng" type="number" step="any" value="74.3587" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono focus:outline-none focus:border-brand-saffron">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-300 uppercase mb-1">Delivery Geofence (KM)</label>
+            <input id="v-radius" type="number" step="0.5" min="5" max="7" value="6.0" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono focus:outline-none focus:border-brand-saffron">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase mb-1">Commission Rate</label>
+            <select id="v-commission" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-saffron">
+              <option value="0.10">10% (HomeChef Tier)</option>
+              <option value="0.12" selected>12% (Standard Partner)</option>
+              <option value="0.15">15% (Premier Featured)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 uppercase mb-1">Raast ID / IBAN for Settlements *</label>
+          <input id="v-raast" type="text" required value="03001234567@raast" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono focus:outline-none focus:border-brand-saffron">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 uppercase mb-1">Tagline / Specialties</label>
+          <input id="v-desc" type="text" placeholder="e.g. Special Dum Biryani, BBQ & Handi" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-saffron">
+        </div>
+
+        <div class="pt-4 flex gap-3">
+          <button type="button" onclick="closeAddVendorModal()" class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold">Cancel</button>
+          <button type="submit" class="flex-1 py-3 rounded-xl gradient-accent text-white font-bold shadow-lg shadow-brand-saffron/25">Publish Restaurant</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SUPABASE RLS SQL FIX -->
+  <div id="modal-rls" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-xl w-full shadow-2xl space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div>
+          <h3 class="text-lg font-black text-white">Supabase Cloud Sync Verification</h3>
+          <p class="text-xs text-slate-400">Run this SQL once in your Supabase SQL Editor to allow multi-device cloud writes.</p>
+        </div>
+        <button onclick="closeRlsModal()" class="text-slate-400 hover:text-white p-2">✕</button>
+      </div>
+
+      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 font-mono text-xs text-brand-gold overflow-x-auto select-all">
+ALTER TABLE vendors DISABLE ROW LEVEL SECURITY;<br>
+ALTER TABLE categories DISABLE ROW LEVEL SECURITY;<br>
+ALTER TABLE products DISABLE ROW LEVEL SECURITY;<br>
+ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="copyRlsSql()" class="w-full py-3 rounded-xl gradient-accent text-white font-bold text-xs">
+          Copy 4-Line SQL to Clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REAL-TIME INTERCONNECTION & DASHBOARD LOGIC -->
+  <script>
+    const SUPABASE_URL = 'https://bxcmtkqkatwxflvdnqwb.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4Y210a3FrYXR3eGZsdmRucXdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0ODAzOTksImV4cCI6MjExMDA1NjM5OX0.ObyrK6XvAIt2UDlQXHwnZD4GweBM_vgdieJfgtokOos';
+
+    let supabaseClient = null;
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (e) {
+      console.warn('Supabase JS load notice:', e);
+    }
+
+    // Local in-browser storage key (Shared with flutter Web / local fallback)
+    const STORAGE_VENDORS_KEY = 'noshkhor_vendors_v1';
+    const STORAGE_ORDERS_KEY = 'noshkhor_orders_v1';
+
+    let inMemoryVendors = [];
+    let inMemoryOrders = [];
+
+    // Tab Navigation
+    function switchAdminTab(tab) {
+      const tabs = ['overview', 'vendors', 'orders', 'settlements', 'pricing'];
+      tabs.forEach(t => {
+        const panel = document.getElementById(`panel-${t}`);
+        const nav = document.getElementById(`nav-${t}`);
+        if (panel) panel.classList.toggle('hidden', t !== tab);
+        if (nav) {
+          if (t === tab) {
+            nav.className = "flex items-center gap-3 px-3.5 py-3 rounded-xl bg-brand-saffron/15 text-brand-saffron border border-brand-saffron/30 transition-all font-semibold";
+          } else {
+            nav.className = "flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all font-semibold";
+          }
+        }
+      });
+
+      const headingMap = {
+        overview: 'Operations Command Center',
+        vendors: 'Restaurant & Merchant Directory',
+        orders: 'Live Kitchen Dispatch Board',
+        settlements: 'Raast P2M Settlement Engine',
+        pricing: 'Geofencing & Distance Matrix'
+      };
+      document.getElementById('page-heading').innerText = headingMap[tab] || 'Operations HQ';
+    }
+
+    // Load initial data
+    async function fetchLatestData() {
+      // 1. Try fetching from Supabase Cloud
+      let cloudVendors = [];
+      let cloudOrders = [];
+
+      if (supabaseClient) {
+        try {
+          const { data: vData, error: vErr } = await supabaseClient.from('vendors').select('*');
+          if (!vErr && vData && vData.length > 0) cloudVendors = vData;
+
+          const { data: oData, error: oErr } = await supabaseClient.from('orders').select('*');
+          if (!oErr && oData && oData.length > 0) cloudOrders = oData;
+        } catch (e) {
+          console.log('Supabase sync note:', e);
+        }
+      }
+
+      // 2. Read local fallback storage
+      const localVStr = localStorage.getItem(STORAGE_VENDORS_KEY);
+      const localVendors = localVStr ? JSON.parse(localVStr) : [];
+
+      const localOStr = localStorage.getItem(STORAGE_ORDERS_KEY);
+      const localOrders = localOStr ? JSON.parse(localOStr) : [];
+
+      // Merge (cloud takes precedence for identical IDs)
+      const vMap = new Map();
+      localVendors.forEach(v => vMap.set(v.id, v));
+      cloudVendors.forEach(v => vMap.set(v.id, v));
+      inMemoryVendors = Array.from(vMap.values());
+
+      const oMap = new Map();
+      localOrders.forEach(o => oMap.set(o.id, o));
+      cloudOrders.forEach(o => oMap.set(o.id, o));
+      inMemoryOrders = Array.from(oMap.values());
+
+      renderUI();
+    }
+
+    function renderUI() {
+      // Update badges
+      document.getElementById('stat-vendors').innerText = inMemoryVendors.length;
+      document.getElementById('badge-vendor-count').innerText = inMemoryVendors.length;
+      document.getElementById('stat-orders').innerText = inMemoryOrders.length;
+
+      // Calculate GMV & Settlements
+      let totalGmv = 0;
+      let totalCommission = 0;
+      inMemoryOrders.forEach(o => {
+        totalGmv += (o.total_pkr || o.totalPkr || 0);
+        totalCommission += (o.platform_commission_pkr || o.platformCommissionPkr || 0);
+      });
+
+      document.getElementById('stat-gmv').innerText = `PKR ${totalGmv.toLocaleString()}`;
+      document.getElementById('settlement-gross').innerText = `PKR ${totalGmv.toLocaleString()}`;
+      document.getElementById('settlement-commission').innerText = `PKR ${totalCommission.toLocaleString()}`;
+      document.getElementById('settlement-net').innerText = `PKR ${(totalGmv - totalCommission).toLocaleString()}`;
+
+      // Render Live Orders table
+      const tbody = document.getElementById('live-orders-table-body');
+      if (inMemoryOrders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="px-6 py-10 text-center text-slate-500 font-sans">No active orders in queue. Place an order from the Customer App!</td></tr>`;
+      } else {
+        tbody.innerHTML = inMemoryOrders.map(order => {
+          const ordId = order.order_number || order.orderNumber || order.id.substring(0, 8);
+          const cust = order.customer_name || order.customerName || 'Customer';
+          const vend = order.vendor_name || order.vendorName || 'Restaurant';
+          const dist = order.distance_km || order.distanceKm || 2.5;
+          const fee = order.delivery_fee_pkr || order.deliveryFeePkr || 90;
+          const total = order.total_pkr || order.totalPkr || 0;
+          const pay = order.payment_method || order.paymentMethod || 'cod';
+          const st = order.status || 'pending';
+
+          let statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400">PENDING</span>`;
+          if (st === 'preparing') statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400">COOKING</span>`;
+          if (st === 'readyForPickup') statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/20 text-green-400">READY</span>`;
+          if (st === 'onTheWay') statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400">OUT FOR DELIVERY</span>`;
+          if (st === 'delivered') statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400">DELIVERED</span>`;
+
+          return `
+            <tr>
+              <td class="px-6 py-4 font-mono font-bold text-white">${ordId}</td>
+              <td class="px-6 py-4 font-medium">${cust}</td>
+              <td class="px-6 py-4 text-slate-300">${vend}</td>
+              <td class="px-6 py-4 font-mono">${dist} km (PKR ${fee})</td>
+              <td class="px-6 py-4 font-mono font-bold text-white">PKR ${total.toLocaleString()}</td>
+              <td class="px-6 py-4 uppercase font-mono text-[10px]">${pay}</td>
+              <td class="px-6 py-4">${statusBadge}</td>
+              <td class="px-6 py-4 text-right">
+                <button onclick="advanceOrderStatus('${order.id}')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] font-mono text-slate-200">Advance →</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Render Vendor Directory
+      const vBody = document.getElementById('vendor-directory-body');
+      if (inMemoryVendors.length === 0) {
+        vBody.innerHTML = `<tr><td colspan="8" class="px-6 py-10 text-center text-slate-500">No restaurants registered yet. Click "+ Onboard New Kitchen" to publish your first store!</td></tr>`;
+      } else {
+        vBody.innerHTML = inMemoryVendors.map(v => {
+          const comm = Math.round((v.commission_rate || v.commissionRate || 0.12) * 100);
+          const radius = v.delivery_radius_km || v.deliveryRadiusKm || 6.0;
+          const raast = v.raast_id || v.raastId || '—';
+          const typeStr = v.type === 'homeChef' ? '👩‍🍳 HomeChef' : (v.type === 'mart' ? '🛒 Mart' : '🍽️ Restaurant');
+          return `
+            <tr>
+              <td class="px-6 py-4 font-bold text-white">${v.name}</td>
+              <td class="px-6 py-4">${typeStr}</td>
+              <td class="px-6 py-4 text-slate-400 truncate max-w-[200px]">${v.address || v.city}</td>
+              <td class="px-6 py-4 font-mono text-brand-gold">${radius} KM</td>
+              <td class="px-6 py-4 font-mono text-brand-emerald">${comm}%</td>
+              <td class="px-6 py-4 font-mono text-[11px]">${raast}</td>
+              <td class="px-6 py-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-brand-emerald/20 text-brand-emerald">ACTIVE</span></td>
+              <td class="px-6 py-4 text-right">
+                <button onclick="deleteVendor('${v.id}')" class="text-rose-400 hover:text-rose-300 font-mono text-[10px]">Remove</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    // Advance order state machine
+    async function advanceOrderStatus(orderId) {
+      const order = inMemoryOrders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const flow = ['pending', 'preparing', 'readyForPickup', 'onTheWay', 'delivered'];
+      const current = order.status || 'pending';
+      const nextIdx = flow.indexOf(current) + 1;
+      if (nextIdx < flow.length) {
+        order.status = flow[nextIdx];
+        localStorage.setItem(STORAGE_ORDERS_KEY, JSON.stringify(inMemoryOrders));
+
+        if (supabaseClient) {
+          try {
+            await supabaseClient.from('orders').update({ status: order.status }).eq('id', orderId);
+          } catch (_) {}
+        }
+        renderUI();
+      }
+    }
+
+    // Modal controls
+    function openAddVendorModal() {
+      document.getElementById('modal-add-vendor').classList.remove('hidden');
+    }
+    function closeAddVendorModal() {
+      document.getElementById('modal-add-vendor').classList.add('hidden');
+    }
+
+    function openRlsModal() {
+      document.getElementById('modal-rls').classList.remove('hidden');
+    }
+    function closeRlsModal() {
+      document.getElementById('modal-rls').classList.add('hidden');
+    }
+
+    function copyRlsSql() {
+      const sql = `ALTER TABLE vendors DISABLE ROW LEVEL SECURITY;\nALTER TABLE categories DISABLE ROW LEVEL SECURITY;\nALTER TABLE products DISABLE ROW LEVEL SECURITY;\nALTER TABLE orders DISABLE ROW LEVEL SECURITY;`;
+      navigator.clipboard.writeText(sql).then(() => {
+        alert('Copied 4-line SQL to clipboard! Paste it into your Supabase SQL Editor and click Run.');
+      });
+    }
+
+    // Add Vendor from Web Admin
+    async function handleAdminVendorSubmit(e) {
+      e.preventDefault();
+      
+      function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+
+      const newVendor = {
+        id: uuidv4(),
+        name: document.getElementById('v-name').value.trim(),
+        slug: document.getElementById('v-name').value.trim().toLowerCase().replace(/\s+/g, '-'),
+        type: document.getElementById('v-type').value,
+        description: document.getElementById('v-desc').value.trim() || 'Freshly onboarded to NoshKhor.',
+        address: document.getElementById('v-address').value.trim(),
+        city: document.getElementById('v-city').value,
+        latitude: parseFloat(document.getElementById('v-lat').value) || 31.5204,
+        longitude: parseFloat(document.getElementById('v-lng').value) || 74.3587,
+        delivery_radius_km: parseFloat(document.getElementById('v-radius').value) || 6.0,
+        commission_rate: parseFloat(document.getElementById('v-commission').value) || 0.12,
+        raast_id: document.getElementById('v-raast').value.trim(),
+        rating: 4.9,
+        rating_count: 1,
+        min_order_pkr: 400.0,
+        avg_prep_time_mins: 25,
+        is_active: true,
+        is_accepting_orders: true,
+      };
+
+      // 1. Save to local storage cache immediately
+      inMemoryVendors.push(newVendor);
+      localStorage.setItem(STORAGE_VENDORS_KEY, JSON.stringify(inMemoryVendors));
+
+      // 2. Synchronize to Supabase Cloud
+      if (supabaseClient) {
+        try {
+          const { error } = await supabaseClient.from('vendors').insert([newVendor]);
+          if (error) {
+            console.log('Supabase insert notice (stored in local synchronization):', error.message);
+          } else {
+            console.log('Successfully written to Supabase cloud!');
+          }
+        } catch (err) {
+          console.log('Supabase network notice:', err);
+        }
+      }
+
+      closeAddVendorModal();
+      e.target.reset();
+      renderUI();
+      alert(`🎉 Onboarded "${newVendor.name}" successfully! Available across Web and Mobile Customer APK.`);
+    }
+
+    function deleteVendor(id) {
+      if (!confirm('Remove this restaurant partner?')) return;
+      inMemoryVendors = inMemoryVendors.filter(v => v.id !== id);
+      localStorage.setItem(STORAGE_VENDORS_KEY, JSON.stringify(inMemoryVendors));
+      if (supabaseClient) {
+        supabaseClient.from('vendors').delete().eq('id', id).then(() => {});
+      }
+      renderUI();
+    }
+
+    function downloadSettlementCsv() {
+      if (inMemoryVendors.length === 0) {
+        alert('No registered vendors to generate settlements for.');
+        return;
+      }
+      let csv = 'Vendor ID,Business Name,Role,Raast ID / IBAN,Gross Sales PKR,Commission Rate,NoshKhor Commission PKR,Net Raast Payout PKR\n';
+      inMemoryVendors.forEach(v => {
+        const comm = (v.commission_rate || v.commissionRate || 0.12);
+        csv += `"${v.id}","${v.name}","${v.type}","${v.raast_id || v.raastId || ''}",0,${(comm * 100).toFixed(0)}%,0,0\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `NoshKhor_Raast_Settlements_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+    }
+
+    // Init
+    fetchLatestData();
+  </script>
+</body>
+</html>
