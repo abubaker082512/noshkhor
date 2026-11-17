@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NoshKhor Super Admin — Operations & Dispatch Command Center</title>
+  <title>FoodKhor Super Admin — Operations & Dispatch Command Center</title>
   <link rel="icon" type="image/png" href="assets/images/noshkhor_logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS Client for Realtime Interconnection -->
@@ -54,11 +54,11 @@
       <!-- Brand Crest -->
       <div class="h-20 flex items-center px-6 border-b border-slate-800 gap-3">
         <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-slate-700">
-          <img src="assets/images/noshkhor_logo.png" alt="NoshKhor Logo" class="w-full h-full object-cover">
+          <img src="assets/images/noshkhor_logo.png" alt="FoodKhor Logo" class="w-full h-full object-cover">
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="font-black text-lg tracking-tight text-white">NoshKhor</span>
+            <span class="font-black text-lg tracking-tight text-white">FoodKhor</span>
             <span class="text-xs font-bold text-brand-gold">HQ</span>
           </div>
           <p class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Command Center</p>
@@ -363,7 +363,7 @@
               <span id="settlement-gross" class="text-xl font-black text-white font-mono">PKR 0.00</span>
             </div>
             <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800">
-              <span class="text-xs font-bold text-slate-400 block mb-1">NoshKhor Commission (10–12%)</span>
+              <span class="text-xs font-bold text-slate-400 block mb-1">FoodKhor Commission (10–12%)</span>
               <span id="settlement-commission" class="text-xl font-black text-brand-saffron font-mono">PKR 0.00</span>
             </div>
             <div class="bg-slate-950 p-5 rounded-2xl border-2 border-brand-emerald/50">
@@ -805,8 +805,8 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
         id: uuidv4(),
         name: document.getElementById('v-name').value.trim(),
         slug: document.getElementById('v-name').value.trim().toLowerCase().replace(/\s+/g, '-'),
-        type: document.getElementById('v-type').value,
-        description: document.getElementById('v-desc').value.trim() || 'Freshly onboarded to NoshKhor.',
+        type: (document.getElementById('v-type').value === 'homeChef' ? 'home_chef' : document.getElementById('v-type').value),
+        description: document.getElementById('v-desc').value.trim() || 'Freshly onboarded to FoodKhor.',
         address: document.getElementById('v-address').value.trim(),
         city: document.getElementById('v-city').value,
         latitude: parseFloat(document.getElementById('v-lat').value) || 31.5204,
@@ -1045,7 +1045,7 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
         alert('No registered vendors to generate settlements for.');
         return;
       }
-      let csv = 'Vendor ID,Business Name,Role,Raast ID / IBAN,Gross Sales PKR,Commission Rate,NoshKhor Commission PKR,Net Raast Payout PKR\n';
+      let csv = 'Vendor ID,Business Name,Role,Raast ID / IBAN,Gross Sales PKR,Commission Rate,FoodKhor Commission PKR,Net Raast Payout PKR\n';
       inMemoryVendors.forEach(v => {
         const comm = (v.commission_rate || v.commissionRate || 0.12);
         csv += `"${v.id}","${v.name}","${v.type}","${v.raast_id || v.raastId || ''}",0,${(comm * 100).toFixed(0)}%,0,0\n`;
@@ -1054,12 +1054,20 @@ ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `NoshKhor_Raast_Settlements_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.download = `FoodKhor_Raast_Settlements_${new Date().toISOString().slice(0, 10)}.csv`;
       a.click();
     }
 
-    // Init
+    // Init & Realtime Subscription across Mobile + Web
     fetchLatestData();
+    if (supabaseClient) {
+      supabaseClient
+        .channel('foodkhor-admin-live')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'vendors' }, () => fetchLatestData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'riders' }, () => fetchLatestData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => fetchLatestData())
+        .subscribe();
+    }
   </script>
 </body>
 </html>
